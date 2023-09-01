@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stargazing Planner</title>
+</head>
+<body>
+    <div style="text-align:center; margin:30px;">
+        <h2>Plan a night out under the stars✨</h2>
+    </div>
+    
+    <!--get search item from user-->
+    <form id="search-form">
+        <label for="term">Object Name:</label>
+        <input type="text" id="term" name="term"  placeholder="star or deep sky object name" required>
+        <button type="submit">Get Object Info</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("search-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const term = document.getElementById("term").value;
+            fetch(`/api/search?term=${term}`)
+                .then(response => response.text())
+                .then(result => {
+                    document.getElementById("result").innerHTML = result;
+                });
+        });
+    </script>
+   
+
+   <!--Get latitude and longitude from user, link to flask app-->
+    <form method="post", action="/api/riseAndSetTimes">
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" required>
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" required>
+	<button type="submit">Get Coordinates</button>
+    </form>
+    
+    <h3>Day Info (GMT)</h3>
+
+    {% if sunrise %}
+        <p>Sunrise: {{ sunrise }}</p>
+    {% endif %}
+
+    {% if sunset %}
+        <p>Sunset: {{ sunset }}</p>
+    {% endif %}
+
+    {% if solar_noon %}
+        <p>Solar Noon: {{ solar_noon }}</p>
+    {% endif %}
+
+    {% if day_length %}
+        <p>Day Length: {{ day_length }}</p>
+    {% endif %}
+
+    {% if civil_twilight_begin %}
+        <p>Civil Twilight Begin: {{ civil_twilight_begin }}</p>
+    {% endif %}
+
+    {% if civil_twilight_end %}
+        <p>Civil Twilight End: {{ civil_twilight_end }}</p>
+    {% endif %}
+
+    {% if nautical_twilight_begin %}
+        <p>Nautical Twilight Begin: {{ nautical_twilight_begin }}</p>
+    {% endif %}
+
+    {% if nautical_twilight_end %}
+        <p>nautical_twilight_end: {{ nautical_twilight_end }}</p>
+    {% endif %}
+
+    {% if astronomical_twilight_begin %}
+        <p>Astronomical Twilight Begin: {{ astronomical_twilight_begin }}</p>
+    {% endif %}
+
+    {% if astronomical_twilight_end %}
+        <p>Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
+    {% endif %}
+
+
+</body>
+</html>
