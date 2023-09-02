@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stargazing Planner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div style="text-align:center; margin:30px;">
         <h2>Plan a night out under the stars✨</h2>
     </div>
     
-    <!--get search item from user-->
+	    <!--get search item from user-->
     <form id="search-form">
         <label for="term">Object Name:</label>
         <input type="text" id="term" name="term"  placeholder="star or deep sky object name" required>
@@ -28,10 +31,12 @@
                 });
         });
     </script>
-   
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
 
    <!--Get latitude and longitude from user, link to flask app-->
-    <form method="post", action="/api/riseAndSetTimes">
+    <form method="post", action="/api/riseAndSetTimes" id="coordinates">
         <label for="latitude">Latitude:</label>
         <input type="text" id="latitude" name="latitude" required>
         <label for="longitude">Longitude:</label>
@@ -39,7 +44,7 @@
 	<button type="submit">Get Coordinates</button>
     </form>
     
-    <h3>Day Info (GMT)</h3>
+    <h3>Ephemeris Data (GMT)</h3>
 
     {% if sunrise %}
         <p>Sunrise: {{ sunrise }}</p>
@@ -79,6 +84,10 @@
 
     {% if astronomical_twilight_end %}
         <p>Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
+    {% endif %}
+
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
     {% endif %}
 
 
