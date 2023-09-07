@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>star charts</title>
+    <script src="https://widgets.astronomyapi.com/cdn/astronomy-api-widgets.js"></script>
+</head>
+<body>
+    <div id="moon-phase"></div>
+    
+    <!-- Dynamic content placeholder for the star chart -->
+    <div id="star-chart">
+        {{ star_chart_data|safe }}
+    </div>
+    
+    <script>
+        const starchart_key = "{{ starchart_authstring }}"
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var flaskServerURL = 'http://54.86.127.182:5000/get-star-chart';
+
+            // Make a request to Flask server's endpoint
+            fetch(flaskServerURL + '/get-star-chart', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${starchart_key}`,
+                },
+            })
+            .then(function(response) {
+                if (response.status === 200) {
+                    return response.text();
+                } else {
+                    throw new Error('Failed to fetch star chart data');
+                }
+            })
+            .then(function(data) {
+                // Display the star chart data
+                document.getElementById('star-chart').innerHTML = data;
+            })
+            .catch(function(error) {
+                console.error(error);
+            });
+        });
+
+    </script>
+    <script>
+        function loadStarChartImage() {
+            // Get the star chart data from the {{ star_chart_data|safe }} variable
+            var starChartData = "{{ star_chart_data|safe }}";
+
+            // Parse the star chart data (assuming it's a URL to the image)
+            var starChartImageUrl = starChartData;
+
+            // Create an img element
+            var imgElement = document.createElement("img");
+
+            // Set the src attribute to the star chart image URL
+            imgElement.src = starChartImageUrl;
+
+            // Get the element where to display the image (e.g., by its ID)
+            var starChartContainer = document.getElementById("star-chart");
+
+            // Append the img element to the container
+            starChartContainer.appendChild(imgElement);
+        }
+
+        // Call the function to load and display the star chart image
+        loadStarChartImage();
+    </script>
+    <!-- Display the star chart image using the injected base64 data -->
+    <img src="data:image/png;base64,{{ star_chart_image_data }}" alt="Star Chart">
+
+</body>
+</html>
+
