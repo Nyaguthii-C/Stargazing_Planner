@@ -1,17 +1,22 @@
 """flask app for stargazing planner"""
 
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect,send_file, abort
+from PIL import Image, UnidentifiedImageError
+from io import BytesIO
 import http.client
 import json
 import requests
 import datetime
 import os
+from flask_cors import CORS
+import base64
 
 """set environmental variable for auth string"""
 api_key = os.environ.get("authorization_string")
+starchart_key = os.environ.get("starchart_authstring")
 
 app = Flask(__name__)
-
+CORS(app)  # Enable CORS for all routes
 
 @app.route("/")
 def index():
@@ -49,23 +54,10 @@ def search():
         constellation = stellarObject_info["position"]["constellation"]["name"]
         right_ascension = stellarObject_info["position"]["equatorial"]["rightAscension"]["string"]
         declinition = stellarObject_info["position"]["equatorial"]["declination"]["string"]
-
-        """Return the extracted object information"""
-        return {"Name": object_name, "Type": object_type, "Sub Type": object_subType, "Constellation": constellation, "Right Ascension": right_ascension, "Declinition": declinition}
     except TypeError:
         error_message = "Invalid input data. Please enter valid name"
-    #return(f"Type: {object_type}")
-    #return(f"Sub Type: {object_subType}")
-    print(f"Constellation: {constellation}")
-    print(f"Right Ascension: {right_ascension}")
-    print(f"Declinition: {declinition}")
-    #print(data.decode("utf-8"))
+    return {"Name": object_name, "Type": object_type, "Sub Type": object_subType, "Constellation": constellation, "Right Ascension": right_ascension, "Declinition": declinition}
 
-#def raise_exceptions(exception, message):
-#    return exception(message)
-
-
-#raise raise_exceptions(KeyError, "Not a valid star or deep sky object"
 
 def get_astronomical_data(latitude, longitude):
     """
@@ -77,7 +69,6 @@ def get_astronomical_data(latitude, longitude):
     params = {
         "lat": latitude,
         "lng": longitude,
-        #"formatted": 0  # Set to 0 for raw timestamps
 	"date": datetime.date.today()
     }
 
@@ -85,7 +76,6 @@ def get_astronomical_data(latitude, longitude):
     astronomical_data = response.json()
 
     return astronomical_data
-    print(astronomical_data)
 
 
 @app.route("/api/riseAndSetTimes", methods=["GET", "POST"])
@@ -97,33 +87,67 @@ def indexTwo():
     if request.method == "POST":
         latitude = request.form["latitude"]
         longitude = request.form["longitude"]
-        print(latitude)
-        astronomical_data = get_astronomical_data(latitude, longitude)
+        
+        if latitude and longitude:  # Check if coordinates are provided
+            astronomical_data = get_astronomical_data(latitude, longitude)
 
-        if "results" in astronomical_data:
-            sunrise = astronomical_data["results"]["sunrise"]
-            sunset = astronomical_data["results"]["sunset"]
-            solar_noon = astronomical_data["results"]["solar_noon"]
-            civil_twilight_begin = astronomical_data["results"]["civil_twilight_begin"]
-            civil_twilight_end = astronomical_data["results"]["civil_twilight_end"]
-            nautical_twilight_begin = astronomical_data["results"]["nautical_twilight_begin"]
-            nautical_twilight_end = astronomical_data["results"]["nautical_twilight_end"]
-            astronomical_twilight_begin = astronomical_data["results"]["astronomical_twilight_begin"]
-            astronomical_twilight_end = astronomical_data["results"]["astronomical_twilight_end"]
+            if "results" in astronomical_data:
+                sunrise = astronomical_data["results"]["sunrise"]
+                sunset = astronomical_data["results"]["sunset"]
+                solar_noon = astronomical_data["results"]["solar_noon"]
+                civil_twilight_begin = astronomical_data["results"]["civil_twilight_begin"]
+                civil_twilight_end = astronomical_data["results"]["civil_twilight_end"]
+                nautical_twilight_begin = astronomical_data["results"]["nautical_twilight_begin"]
+                nautical_twilight_end = astronomical_data["results"]["nautical_twilight_end"]
+                astronomical_twilight_begin = astronomical_data["results"]["astronomical_twilight_begin"]
+                astronomical_twilight_end = astronomical_data["results"]["astronomical_twilight_end"]
 
-            return render_template("searchItem.html", sunrise=sunrise, sunset=sunset, solar_noon=solar_noon, civil_twilight_begin=civil_twilight_begin, civil_twilight_end=civil_twilight_end, nautical_twilight_begin=nautical_twilight_begin, nautical_twilight_end=nautical_twilight_end, astronomical_twilight_begin=astronomical_twilight_begin, astronomical_twilight_end=astronomical_twilight_end)
-          
-        print(f"Sunrise (GMT+0): {sunrise}")
-        print(f"Sunset (GMT+0): {sunset}")
-        print(f"Civil Twilight Begin (GMT+0): {civil_twilight_begin}")
-        print(f"Civil Twilight End (GMT+0): {civil_twilight_end}")
-        print(f"Nautical Twilight Begin (GMT+0): {nautical_twilight_begin}")
-        print(f"Nautical Twilight End (GMT+0): {nautical_twilight_end}")
-        print(f"Astronomical Twilight Begin (GMT+0): {astronomical_twilight_begin}")
-        print(f"Astronomical Twilight End (GMT+0): {astronomical_twilight_end}")
-    else:
-        print("Failed to fetch data.")
+                return render_template("searchItem.html", sunrise=sunrise, sunset=sunset, solar_noon=solar_noon, civil_twilight_begin=civil_twilight_begin, civil_twilight_end=civil_twilight_end, nautical_twilight_begin=nautical_twilight_begin, nautical_twilight_end=nautical_twilight_end, astronomical_twilight_begin=astronomical_twilight_begin, astronomical_twilight_end=astronomical_twilight_end)
+        return render_template("searchItem.html", no_coordinates=True)  
+
+"""DEFINE A FUNCTION TO TAKE IN COORDS, CONSTELLTION NAME TO GIVE STAR CHARTS"""
+@app.route("/api/get-star-chart", methods=["GET"])
+def starChart():
+    """
+    get starcharts from astronomy api
+    Args: lat, long, constellation, date
+    Return: starcharts for the relevant contellation, latitude and longitude
+    """
+    conn = http.client.HTTPSConnection("api.astronomyapi.com")
+
+    payload = "{\"style\":\"inverted\",\"observer\":{\"latitude\":33.775867,\"longitude\":-84.39733,\"date\":\"2023-09-06\"},\"view\":{\"type\":\"constellation\",\"parameters\":{\"constellation\":\"ori\"}}}"
+
+    headers = {
+        'Authorization': f"Basic {starchart_key}"
+    }
+
+    conn.request("POST", "/api/v2/studio/star-chart", payload, headers)
+
+    res = conn.getresponse()
+    chart_data = res.read()
+    star_chart_image_data_base64 = base64.b64encode(chart_data).decode('utf-8')
+    try:
+        chart_image = Image.open(BytesIO(chart_data))
+        # Display the image using the default image viewer
+        chart_image.show()
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+    # Parse the JSON response to get the image URL
+    import json
+    try:
+        response_data = json.loads(chart_data)
+        image_url = response_data.get("data", {}).get("imageUrl")
+    except json.JSONDecodeError as e:
+        return f"Error: Unable to parse JSON response. {str(e)}", 500
+    
+
+    if not image_url:
+        return "Error: Image URL not found in the API response.", 500
+
+    # Redirect to the image URL
+    return redirect(image_url)
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
