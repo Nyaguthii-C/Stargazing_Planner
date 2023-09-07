@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stargazing Planner</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+    .ephemeris {
+        text-align: center;
+    }
+    </style>
 </head>
 <body>
     <div style="text-align:center; margin:30px;">
@@ -34,62 +39,65 @@
     {% if error_message %}
         <p class="error">{{ error_message }}</p>
     {% endif %}
-
    <!--Get latitude and longitude from user, link to flask app-->
     <form method="post", action="/api/riseAndSetTimes" id="coordinates">
         <label for="latitude">Latitude:</label>
         <input type="text" id="latitude" name="latitude" required>
         <label for="longitude">Longitude:</label>
         <input type="text" id="longitude" name="longitude" required>
-	<button type="submit">Get Coordinates</button>
+	<button type="submit">Get Rise and Set Times</button>
     </form>
     
-    <h3>Ephemeris Data (GMT)</h3>
-
-    {% if sunrise %}
-        <p>Sunrise: {{ sunrise }}</p>
+    {% if sunrise or sunset or solar_noon or civil_twilight_begin or civil_twilight_end %}
+    <h3 class="ephemeris">Ephemeris Data (GMT)</h3>
     {% endif %}
 
-    {% if sunset %}
-        <p>Sunset: {{ sunset }}</p>
+    {% if no_coordinates %}
+        <p>Please enter valid coordinates to get ephemeris data.</p>
+    {% else %}    
+        {% if sunrise %}
+            <p class="ephemeris">Sunrise: {{ sunrise }}</p>
+        {% endif %}
+
+        {% if sunset %}
+            <p class="ephemeris">Sunset: {{ sunset }}</p>
+        {% endif %}
+
+        {% if solar_noon %}
+            <p class="ephemeris">Solar Noon: {{ solar_noon }}</p>
+        {% endif %}
+
+        {% if day_length %}
+            <p class="ephemeris">Day Length: {{ day_length }}</p>
+        {% endif %}
+
+        {% if civil_twilight_begin %}
+            <p class="ephemeris">Civil Twilight Begin: {{ civil_twilight_begin }}</p>
+        {% endif %}
+
+        {% if civil_twilight_end %}
+            <p class="ephemeris">Civil Twilight End: {{ civil_twilight_end }}</p>
+        {% endif %}
+
+        {% if nautical_twilight_begin %}
+            <p class="ephemeris">Nautical Twilight Begin: {{ nautical_twilight_begin }}</p>
+        {% endif %}
+
+        {% if nautical_twilight_end %}
+            <p class="ephemeris">nautical_twilight_end: {{ nautical_twilight_end }}</p>
+        {% endif %}
+
+        {% if astronomical_twilight_begin %}
+            <p class="ephemeris">Astronomical Twilight Begin: {{ astronomical_twilight_begin }}</p>
+        {% endif %}
+
+        {% if astronomical_twilight_end %}
+            <p class="ephemeris">Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
+        {% endif %}
+
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
     {% endif %}
-
-    {% if solar_noon %}
-        <p>Solar Noon: {{ solar_noon }}</p>
-    {% endif %}
-
-    {% if day_length %}
-        <p>Day Length: {{ day_length }}</p>
-    {% endif %}
-
-    {% if civil_twilight_begin %}
-        <p>Civil Twilight Begin: {{ civil_twilight_begin }}</p>
-    {% endif %}
-
-    {% if civil_twilight_end %}
-        <p>Civil Twilight End: {{ civil_twilight_end }}</p>
-    {% endif %}
-
-    {% if nautical_twilight_begin %}
-        <p>Nautical Twilight Begin: {{ nautical_twilight_begin }}</p>
-    {% endif %}
-
-    {% if nautical_twilight_end %}
-        <p>nautical_twilight_end: {{ nautical_twilight_end }}</p>
-    {% endif %}
-
-    {% if astronomical_twilight_begin %}
-        <p>Astronomical Twilight Begin: {{ astronomical_twilight_begin }}</p>
-    {% endif %}
-
-    {% if astronomical_twilight_end %}
-        <p>Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
-    {% endif %}
-
-    {% if error_message %}
-        <p class="error">{{ error_message }}</p>
-    {% endif %}
-
-
 </body>
 </html>
