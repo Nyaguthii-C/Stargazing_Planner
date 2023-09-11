@@ -1,0 +1,95 @@
+
+        header {
+        background-color: rgba(0, 0, 0, 0.5); 
+        border: 1px solid grey;
+        height: 50px;
+        margin-bottom: 20px;
+        }
+
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #444C38; /* Jungle Green background */
+        color: #fff;
+        margin: 0;
+        line-height: inherit;
+        display: block;
+        line-height: inherit;
+        box-sizing border-box
+        }
+
+        .container {
+        display: flex;
+        align-items: center;
+        position: relative; /* Add relative positioning to the container */
+        }
+
+        .intro {
+            text-align: center; /* Center align the text */
+            color: white;
+            padding: 10px;
+            max-width: 800em;
+            background-image: url("https://media.istockphoto.com/id/595367152/photo/loneley-man-under-milky-way-on-top-of-mount-hochk%C3%B6nig.jpg?s=612x612&w=0&k=20&c=8S6C05COyGuH6Fr-M2pBifmWjAkDM9ejAE343a9G0lk=") ;
+             min-height: 100%;
+        }
+
+
+
+        button {
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+
+        .container2 {
+            max-width: 800em;
+            margin: 20px auto; /* Add some margin to separate containers */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.5); 
+        }
+
+        .feature {
+            margin: 20px 0;
+            text-align: center; /* Center align features */
+        }
+
+        .feature img {
+            max-width: 50%;
+        }
+
+        footer {
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.9);
+            text-align: center;
+            padding: 10px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .social-icons {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            padding: 8px;
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
