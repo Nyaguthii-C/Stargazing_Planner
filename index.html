@@ -5,117 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stargazing Planner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-
-        header {
-        background-color: rgba(0, 0, 0, 0.5); 
-        border: 1px solid grey;
-        height: 50px;
-        margin-bottom: 20px;
-        }
-
-        body {
-        font-family: Arial, sans-serif;
-        background-color: #444C38; /* Jungle Green background */
-        color: #fff;
-        margin: 0;
-        overflow-x: hidden; /* Prevent horizontal overflow */
-        }
-
-        .container {
-        display: flex;
-        align-items: center;
-        position: relative; /* Add relative positioning to the container */
-        }
-
-        .image-container img {
-            left: 0px;
-            top: 0px;
-            z-index: -1;
-        }
-
-        .intro {
-            text-align: center; /* Center align the text */
-            color: white;
-            padding: 10px;
-        }
-
-        .intro-text {
-            position: absolute;
-            top: 200px;
-            left: 250px;
-        }
-  
-        .intro img {
-            width: 850px;
-            border-radius: 10px;
-        }
-
-        button {
-            border-radius: 10px;
-            opacity: 0.5;
-        }
-
-        .container2 {
-            max-width: 800px;
-            margin: 20px auto; /* Add some margin to separate containers */
-            padding: 20px;
-            border-radius: 10px;
-            background-color: rgba(0, 0, 0, 0.5); 
-        }
-
-        .feature {
-            margin: 20px 0;
-            text-align: center; /* Center align features */
-        }
-
-        .feature img {
-            max-width: 100%;
-        }
-
-        footer {
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.9);
-            text-align: center;
-            padding: 10px;
-        }
-
-        footer a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        .social-icons {
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            padding: 8px;
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-        }
-        /* Style the video iframe */
-        .video-iframe {
-            width: 800px; /* Occupy full width */
-            height: 250px; /* Occupy full height */
-            border: none; /* Remove iframe border */
-        }
-    </style>
+    <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
     <header>
@@ -128,47 +18,44 @@
         </div>
     </header>
     <div class="intro" >  
-        <img src="https://media.istockphoto.com/id/595367152/photo/loneley-man-under-milky-way-on-top-of-mount-hochk%C3%B6nig.jpg?s=612x612&w=0&k=20&c=8S6C05COyGuH6Fr-M2pBifmWjAkDM9ejAE343a9G0lk=" alt="Your Image">
-        <div class="intro-text">    
-            <h1>Stargazing Planner</h1>   
-            <p>Plan your perfect night under the stars with our stargazing adventure web app</p>
-            <button onclick="location.href='https://www.kenyanastro.tech';"> Go to Web App</button>
-        </div>
+
+        <h1>Stargazing Planner</h1>   
+
+        <p>Plan your perfect night under the stars with our stargazing adventure web app</p>
+        <button onclick="location.href='https://www.kenyanastro.tech';"> Go to Web App</button>
     </div>
      
     </div>
     <div class="container2">
         <h2 id="features">Key Features</h2>
-        <div class="feature">
-            <img src="https://drive.google.com/file/d/1y47pBljOFGQvL9deucvFZL9EN8KZ8aVU/view?usp=sharing" alt="The landing page">
+       <div class="feature">
             <h3>Input fields</h3>
             <p>In the input fields, users can provide sky object names and their coordinates</p>
+            <img src="https://drive.google.com/uc?export=view&id=1y47pBljOFGQvL9deucvFZL9EN8KZ8aVU" alt="The landing page">
+            
         </div>
         <div class="feature">
-            <img src="https://drive.google.com/file/d/1fU7D6DvG_e20RQr8hAkI6PulHSXTtKZ2/view?usp=sharing" alt="Object description output">
             <h3>Object Description</h3>
-            <p>Upon entering a search object's name, users get information about the object searched. This includes the celestial coordinates, object type, subtype and constellation </p>
+            <p>Upon entering a search object's name, users get information about the object searched. This includes the celestial coordinates, object type, subtype and constellation</p>
+            <img src="https://drive.google.com/uc?export=view&id=1fU7D6DvG_e20RQr8hAkI6PulHSXTtKZ2" alt="Object description output">
         </div>
         <div class="feature">
-            <img src="https://drive.google.com/file/d/1n_6grotyLvS0amRT_J-Z5VFFYIMT_4zR/view?usp=sharing" alt="ephemeris data">
             <h3>Ephemeris data</h3>
             <p>This feature gives users the rise and set times, Solar Noon time, Astronomical, Civil and Nautical Dawn and Dusk times when they enter their location coordinates</p>
+            <img src="https://drive.google.com/uc?export=view&id=1n_6grotyLvS0amRT_J-Z5VFFYIMT_4zR" alt="ephemeris data">
         </div>
     </div>
 
     <div class="container2" id="about">
         <h2>About</h2>
-        <div class="video-container">
-            <!-- Video iframe -->
-            <div style="padding: 20px 0 0 20px; position: relative;" class="video-iframe">
-                <iframe src="https://player.vimeo.com/video/862178646?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position: absolute; top: 0; left: 0; width: 80%; height: 100%;" title="An Introduction to the Stargazing Planner"></iframe>
-            </div>
             <!-- Text content in the "About" section -->
             <div class="about-container">
         <p>As a culmination of my foundational year at ALX-Holberton School, I conceptualized the Stargazing Planner web app. My motivation stemmed from the desire to meld my software engineering knowledge with my passion for stargazing. The goal was clear: create a tool that empowers both amateur astronomers and newcomers to stargazing, making their celestial observations more accessible.The Stargazing Planner accomplishes this by harnessing location data and user preferences to provide a comprehensive stargazing experience. Users input their location and select the celestial objects they wish to observe. The app then generates two crucial pieces of information. First, it determines which objects will be visible from their specific location. Second, it provides precise sky coordinates, guiding users to the exact spot where these celestial wonders can be found.</p>
-        <p>Developed within a three-week timeframe to align with school project deadlines, this web application is just the beginning. As time progresses, we plan to enhance its features, ensuring that stargazers continue to have an invaluable tool at their disposal. Stargazing has never been more accessible and engaging, thanks to the Stargazing Planner.</p>
+        <p>Developed within a three-week timeframe to align with school project deadlines, this web application is just the beginning. As time progresses, we plan to enhance its features, ensuring that stargazers continue to have an invaluable tool at their disposal.</p>
        </div>
-   </div>
+              <a href="https://github.com/Nyaguthii-C/Stargazing_Planner" target="_blank"><i class="fab fa-github social-icons"></i> View Source Code</a>
+
+   </div> 
  </div>    
     <footer>
         <p>Connect with Us:</p>
