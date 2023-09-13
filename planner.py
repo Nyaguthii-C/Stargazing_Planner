@@ -10,12 +10,14 @@ import datetime
 import os
 from flask_cors import CORS
 import base64
+from PyAstronomy import pyasl
+import numpy as np
 
 """set environmental variable for auth string"""
 api_key = os.environ.get("authorization_string")
 starchart_key = os.environ.get("starchart_authstring")
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static', static_folder='static')
 CORS(app)  # Enable CORS for all routes
 
 @app.route("/")
@@ -149,5 +151,43 @@ def starChart():
     return redirect(image_url)
 
 
+""" return alt azimuth"""
+def parse_ra(ra_str):
+    # Split the RA string into hours, minutes, and seconds
+    parts = ra_str.split()
+    hours = float(parts[0].replace('h', ''))
+    minutes = float(parts[1].replace('m', ''))
+    seconds = float(parts[2].replace('s', ''))
+    
+    # Convert to degrees
+    degrees = (hours + minutes / 60 + seconds / 3600) * 15
+    return degrees
+
+
+@app.route("/api/get-alt-azimuth", methods=["GET", "POST"])
+def altaz():
+    if request.method == "POST":
+        date_str = request.form["date"]
+        ra_str = request.form["ra"]
+        dec = float(request.form["dec"])
+
+        jd = datetime.datetime.strptime(date_str, "%Y-%m-%d")
+        jd = pyasl.jdcnv(jd)
+
+        ra_degrees = parse_ra(ra_str)
+
+        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory="HS")
+
+        if alt < 0:
+            message = "Object not visible at your location at this time."
+        else:
+            message = ""
+
+
+        return render_template("searchItem.html", alt=alt, az=az, message=message)
+
+    return render_template("searchItem.html", alt=None, az=None, message=None)
+
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000)
