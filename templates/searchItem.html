@@ -43,6 +43,7 @@
     </div>
     
 	    <!--get search item from user-->
+    <h3>Search Object</h3>
     <form id="search-form">
         <label for="term">Object Name:</label>
         <input type="text" id="term" name="term"  placeholder="star or deep sky object name" required>
@@ -65,7 +66,30 @@
     {% if error_message %}
         <p class="error">{{ error_message }}</p>
     {% endif %}
-   <!--Get latitude and longitude from user, link to flask app-->
+    <!--convert right acencion and declination into altituse and azimuth-->
+    <div id="altazimuth">
+        <h3>Azimuth & Altitude</h3>
+        <p>Use Right Ascension and declination values above</p>
+        <form method="post" action="/api/get-alt-azimuth">
+            <label for="date">Date (YYYY-MM-DD):</label>
+            <input type="text" name="date" id="date" required>
+            <label for="ra">RA (e.g., 18h 36m 56s):</label>
+            <input type="text" name="ra" id="ra" required>
+            <label for="dec">DEC (degrees):</label>
+            <input type="text" name="dec" id="dec" required>
+            <button type="submit">Calculate</button>
+        </form>
+        {% if alt is defined and az is defined %}
+            <h2>Results:</h2>
+            <p>Azimuth: {{ az }}</p>
+            <p>Altitude: {{ alt }}</p>
+        {% endif %}
+
+        {% if message is defined %}
+            <p>{{ message }}</p>
+        {% endif %}
+    </div>
+    <!--Get latitude and longitude from user, link to flask app-->
     <form method="post", action="/api/riseAndSetTimes" id="coordinates">
         <label for="latitude">Latitude:</label>
         <input type="text" id="latitude" name="latitude" required>
@@ -125,28 +149,5 @@
             <p class="error">{{ error_message }}</p>
         {% endif %}
     {% endif %}
-
-    <div id="altazimuth">
-        <h3>Azimuth & Altitude</h3>
-        <p>Use Right Ascension and declination values above</p>
-        <form method="post" action="/api/get-alt-azimuth">
-            <label for="date">Date (YYYY-MM-DD):</label>
-            <input type="text" name="date" id="date" required>
-            <label for="ra">RA (e.g., 18h 36m 56s):</label>
-            <input type="text" name="ra" id="ra" required>
-            <label for="dec">DEC (degrees):</label>
-            <input type="text" name="dec" id="dec" required>
-            <button type="submit">Calculate</button>
-        </form>
-        {% if alt is defined and az is defined %}
-            <h2>Results:</h2>
-            <p>Azimuth: {{ az }}</p>
-            <p>Altitude: {{ alt }}</p>
-        {% endif %}
-
-        {% if message is defined %}
-            <p>{{ message }}</p>
-        {% endif %}
-    </div>
 </body>
 </html>
