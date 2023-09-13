@@ -132,14 +132,11 @@
         <form method="post" action="/api/get-alt-azimuth">
             <label for="date">Date (YYYY-MM-DD):</label>
             <input type="text" name="date" id="date" required>
-            <br>
             <label for="ra">RA (e.g., 18h 36m 56s):</label>
             <input type="text" name="ra" id="ra" required>
-            <br>
             <label for="dec">DEC (degrees):</label>
             <input type="text" name="dec" id="dec" required>
-            <br>
-            <input type="submit" value="Calculate">
+            <button type="submit">Calculate</button>
         </form>
         {% if alt is defined and az is defined %}
             <h2>Results:</h2>
