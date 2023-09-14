@@ -170,7 +170,7 @@ def altaz():
         date_str = request.form["date"]
         ra_str = request.form["ra"]
         dec = float(request.form["dec"])
-        alt = float(request.form["local-altitude"])
+        user_alt = float(request.form["local-altitude"])
 
         # Capture the user's geographical location
         user_latitude_str = request.form["latitude"]
@@ -206,7 +206,7 @@ def altaz():
         ra_degrees = parse_ra(ra_str)
 
         # Use LST in the calculation
-        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, lat=user_latitude, lon=user_longitude, alt)
+        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, lat=user_latitude, lon=user_longitude, alt=user_alt)
         #alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory="HS")
 
         if alt < 0:
