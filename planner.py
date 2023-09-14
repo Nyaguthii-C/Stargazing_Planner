@@ -205,7 +205,7 @@ def altaz():
         ra_degrees = parse_ra(ra_str)
 
         # Use LST in the calculation
-        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, lat=user_latitude, lon=user_longitude))
+        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, lat=user_latitude, lon=user_longitude)
         #alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory="HS")
 
         if alt < 0:
