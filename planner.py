@@ -171,12 +171,39 @@ def altaz():
         ra_str = request.form["ra"]
         dec = float(request.form["dec"])
 
+        # Capture the user's geographical location
+        user_latitude_str = request.form["latitude"]
+        if user_latitude_str.strip() == "":
+            # Handle the case where latitude is empty (e.g., provide a default value or show an error message)
+            return("Enter location latitude")
+        else:
+            try:
+                # Attempt to convert the latitude to a float
+                user_latitude = float(user_latitude_str)
+            except ValueError:
+                # Handle the case where latitude is not a valid float (e.g., show an error message)
+                return("Enter valid latitude value")
+                user_latitude_str = request.form["latitude"]
+        
+	if user_longitude_str.strip() == "":
+            # Handle the case where longitude is empty (e.g., provide a default value or show an error message)
+            return("Enter location longitude")
+        else:
+            try:
+                # Attempt to convert the longitude to a float
+                user_latitude = float(user_latitude_str)
+            except ValueError:
+                # Handle the case where longitude is not a valid float (e.g., show an error message)
+                return("Enter valid longitude value")
+
+
         jd = datetime.datetime.strptime(date_str, "%Y-%m-%d")
         jd = pyasl.jdcnv(jd)
-
         ra_degrees = parse_ra(ra_str)
 
-        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory="HS")
+        # Use LST in the calculation
+        alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory=(user_latitude, user_longitude))
+        #alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, observatory="HS")
 
         if alt < 0:
             message = "Object not visible at your location at this time."
