@@ -15,7 +15,15 @@ Entering incorrect or invalid coordinates values will return incorrect ephemeris
 
 
 
+## Usage
 
+
+
+
+## Contributing
+
+
+## Licensing
 
 
 
