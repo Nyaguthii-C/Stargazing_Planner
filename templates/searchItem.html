@@ -80,13 +80,14 @@
             <label for="local-altitude">Altitude (local):</label>
 	    <input type="text" name="local-altitude" id="local-altitude" required>
 
+
+            <!-- Auto-loaded input fields for latitude and longitude -->
+            <label for="latitude">Latitude:</label>
+            <input type="text" name="latitude" id="latitude">
+            <label for="latitude">Longitude:</label>
+            <input type="text" name="longitude" id="longitude">
             <!-- Add a button to get user's location -->
             <button type="button" onclick="getLocation()">Get My Location</button>
-
-            <!-- Hidden input fields for latitude and longitude -->
-            <input type="text" name="latitude" id="latitude">
-            <input type="text" name="longitude" id="longitude">
-
 
             <button type="submit">Calculate</button>
         </form>
