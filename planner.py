@@ -173,6 +173,9 @@ def altaz():
 
         # Capture the user's geographical location
         user_latitude_str = request.form["latitude"]
+	user_longitude_str = request.form["longitude"]
+
+        #handle latitude exceptions
         if user_latitude_str.strip() == "":
             # Handle the case where latitude is empty (e.g., provide a default value or show an error message)
             return("Enter location latitude")
@@ -183,15 +186,15 @@ def altaz():
             except ValueError:
                 # Handle the case where latitude is not a valid float (e.g., show an error message)
                 return("Enter valid latitude value")
-                user_latitude_str = request.form["latitude"]
-        
-	if user_longitude_str.strip() == "":
+
+        #handle longitude exceptions 
+        if user_longitude_str.strip() == "":
             # Handle the case where longitude is empty (e.g., provide a default value or show an error message)
             return("Enter location longitude")
         else:
             try:
                 # Attempt to convert the longitude to a float
-                user_latitude = float(user_latitude_str)
+                user_longitude = float(user_longitude_str)
             except ValueError:
                 # Handle the case where longitude is not a valid float (e.g., show an error message)
                 return("Enter valid longitude value")
