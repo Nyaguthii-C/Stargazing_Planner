@@ -29,7 +29,7 @@
         margin-bottom: 20px;
     }
 
-    #result {
+    #result, #objname {
         text-align: center;
     }
     #altazimuth {
@@ -43,7 +43,7 @@
     </div>
     
 	    <!--get search item from user-->
-    <h3>Search Object</h3>
+    <h3 id="objname">Search Object</h3>
     <form id="search-form">
         <label for="term">Object Name:</label>
         <input type="text" id="term" name="term"  placeholder="star or deep sky object name" required>
@@ -77,6 +77,15 @@
             <input type="text" name="ra" id="ra" required>
             <label for="dec">DEC (degrees):</label>
             <input type="text" name="dec" id="dec" required>
+
+            <!-- Add a button to get user's location -->
+            <button type="button" onclick="getLocation()">Get My Location</button>
+
+            <!-- Hidden input fields for latitude and longitude -->
+            <input type="text" name="latitude" id="latitude">
+            <input type="text" name="longitude" id="longitude">
+
+
             <button type="submit">Calculate</button>
         </form>
         {% if alt is defined and az is defined %}
@@ -89,6 +98,25 @@
             <p>{{ message }}</p>
         {% endif %}
     </div>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Get latitude and longitude from the browser
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+                    // Populate the hidden input fields
+                    document.getElementById('latitude').value = latitude;
+                    document.getElementById('longitude').value = longitude;
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+
+
     <!--Get latitude and longitude from user, link to flask app-->
     <form method="post", action="/api/riseAndSetTimes" id="coordinates">
         <label for="latitude">Latitude:</label>
