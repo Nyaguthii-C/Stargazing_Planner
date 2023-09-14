@@ -173,7 +173,7 @@ def altaz():
 
         # Capture the user's geographical location
         user_latitude_str = request.form["latitude"]
-	user_longitude_str = request.form["longitude"]
+        user_longitude_str = request.form["longitude"]
 
         #handle latitude exceptions
         if user_latitude_str.strip() == "":
