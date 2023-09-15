@@ -1,6 +1,6 @@
 # Stargazing_Planner
-End of Foundations year project
-
+End of Foundations year project  
+https://nyaguthii-c.github.io/Stargazing_Planner/
 ## Introduction
 Stargazing Planner is a web application developed with the Flask framework.  
 Its primary objective is to be a tool that demystifies celestial observations, catering to both novice stargazers and amateur astronomers.  
@@ -15,7 +15,15 @@ Entering incorrect or invalid coordinates values will return incorrect ephemeris
 
 
 
+## Usage
 
+
+
+
+## Contributing
+
+
+## Licensing
 
 
 
