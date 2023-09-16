@@ -100,16 +100,25 @@
             <input type="text" id="term" name="term"  placeholder="Star or deep sky object name" required>
             <button type="submit">Get Object Info</button>
         </form>
-        <div class="result-section" id="result"></div>
+        <div class="result-section" id="result">
+            <ul id="result-list"></ul>
+        </div>
     </div>
     <script>
         document.getElementById("search-form").addEventListener("submit", function(event) {
             event.preventDefault();
             const term = document.getElementById("term").value;
             fetch(`/api/search?term=${term}`)
-                .then(response => response.text())
+                .then(response => response.json()) // Assuming the API returns JSON data
                 .then(result => {
-                    document.getElementById("result").innerHTML = result;
+                    const resultList = document.getElementById("result-list");
+                    resultList.innerHTML = ''; // Clear any previous results
+
+                    for (const key in result) {
+                        const listItem = document.createElement("li");
+                        listItem.innerHTML = `<strong>${key}:</strong> ${result[key]}`;
+                        resultList.appendChild(listItem);
+                    }
                 });
         });
     </script>
