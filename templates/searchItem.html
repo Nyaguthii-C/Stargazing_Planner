@@ -114,13 +114,17 @@
                     const resultList = document.getElementById("result-list");
                     resultList.innerHTML = ''; // Clear any previous results
 
-                    for (const key in result) {
-                        const listItem = document.createElement("li");
-                        listItem.innerHTML = `<strong>${key}:</strong> ${result[key]}`;
-                        resultList.appendChild(listItem);
-                    }
-                });
-        });
+                    const order = ["Type", "Name", "Sub Type", "Constellation", "Right Ascension", "Declinition"];
+
+                    order.forEach(key => {
+                        if (result.hasOwnProperty(key)) {
+                            const listItem = document.createElement("li");
+                            listItem.innerHTML = `<strong>${key}:</strong> ${result[key]}`;
+                            resultList.appendChild(listItem);
+                        }
+                    });
+            });
+	});
     </script>
     <!-- Altazimuth Calculator Section -->
     <div class="container">
