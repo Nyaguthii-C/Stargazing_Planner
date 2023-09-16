@@ -5,60 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stargazing Planner</title>
     <style>
-    .ephemeris {
-        text-align: center;
+    /* Reset default margin and padding for better consistency */
+    * {
+        margin: 0;
+        padding: 0;
     }
-    h2 {
-        background-color: #0f3057;
-        border: 1 grey solid;
+
+    body {
+        background: url('https://cdn.spacetelescope.org/archives/images/thumb700x/heic0406a.jpg'); /* Replace 'background.jpg' with your background image URL */
+        background-size: cover; /* Ensure the background image covers the entire viewport */
+        font-family: 'Arial', sans-serif; /* Choose a suitable font */
+    }
+
+    /* Header styling */
+    header {
+        background-color: rgba(15, 48, 87, 0.8); /* Semi-transparent background color for header */
+        text-align: center;
+        padding: 20px;
         color: white;
     }
-    body {
-        background: #e7eaf6;
-	box-sizing: border-box;
-	display: block;
+
+    header h1 {
+        font-size: 36px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
     }
 
-    #coordinates {
-        text-align: center;
-        margin-top: 20px;
+    /* Container styling for sections */
+    .container {
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for sections */
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a shadow to the containers */
     }
 
-    #search-form {
-        text-align: center;
-        margin-bottom: 20px;
+    /* Button styling */
+    button {
+        background-color: #0f3057;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
-    #result, .objname {
-        text-align: center;
+    button:hover {
+        background-color: #17386e; /* Darker color on hover */
     }
-    #altazimuth {
-        text-align: center;
+
+    /* Input field styling */
+    input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+        margin-bottom: 10px;
     }
-    #form-inputs {
-        #height: 100%;
-        #width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+
+    /* Styling for result and ephemeris sections (similar to container) */
+    .result-section, .ephemeris-section {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     }
     </style>
 </head>
 <body>
-    <div style="text-align:center; margin:30px;">
-        <h2>Plan a night out under the stars✨</h2>
+    <header>
+        <h1>Stargazing Planner</h1>
+    </header>
+
+    <!-- Search Object Section -->
+    <div class="container">
+        <h2>Search Object</h2>
+        <form id="search-form">
+            <label for="term">Object Name:</label>
+            <input type="text" id="term" name="term"  placeholder="Star or deep sky object name" required>
+            <button type="submit">Get Object Info</button>
+        </form>
+        <div class="result-section" id="result"></div>
     </div>
-    
-	    <!--get search item from user-->
-    <h3 class="objname">Search Object</h3>
-    <form id="search-form">
-        <label for="term">Object Name:</label>
-        <input type="text" id="term" name="term"  placeholder="star or deep sky object name" required>
-        <button type="submit">Get Object Info</button>
-    </form>
-
-    <div id="result"></div>
-
     <script>
         document.getElementById("search-form").addEventListener("submit", function(event) {
             event.preventDefault();
@@ -70,51 +98,113 @@
                 });
         });
     </script>
-    {% if error_message %}
-        <p class="error">{{ error_message }}</p>
-    {% endif %}
-    <!--convert right acencion and declination into altituse and azimuth-->
-    <div id="altazimuth">
-        <h3>Azimuth & Altitude</h3>
+    <!-- Altazimuth Calculator Section -->
+    <div class="container">
+        <h2>Azimuth & Altitude</h2>
         <p>Use Right Ascension and declination values above</p>
         <form method="post" action="/api/get-alt-azimuth">
-            <div id="form-inputs">
+            <!-- Add your input fields here with appropriate labels -->
                 <label for="date">Date (YYYY-MM-DD):</label>
                 <input type="text" name="date" id="date" required>
-	        <br>
                 <label for="ra">RA (e.g., 18h 36m 56s):</label>
                 <input type="text" name="ra" id="ra" required>
-                <br>
                 <label for="dec">DEC (degrees):</label>
                 <input type="text" name="dec" id="dec" required>
-                <br>
                 <label for="local-altitude">Altitude (local):</label>
-	        <input type="text" name="local-altitude" id="local-altitude" required>
-                </br>
-
-
+                <input type="text" name="local-altitude" id="local-altitude" required>
                 <!-- Auto-loaded input fields for latitude and longitude -->
                 <label for="latitude">Latitude:</label>
                 <input type="text" name="latitude" id="latitude">
-                <br>
                 <label for="latitude">Longitude:</label>
                 <input type="text" name="longitude" id="longitude">
-                <!-- Add a button to get user's location -->
-                <button type="button" onclick="getLocation()">Get My Location</button>
-                <br>
-                <button type="submit">Calculate</button>
-            </div>
+ 
+            <!-- Add a button to get user's location -->
+            <button type="button" onclick="getLocation()">Get My Location</button>
+            <button type="submit">Calculate</button>
         </form>
-        {% if alt is defined and az is defined %}
-            <h2>Results:</h2>
-            <p>Azimuth: {{ az }}</p>
-            <p>Altitude: {{ alt }}</p>
-        {% endif %}
+        <div class="result-section">
+            <!-- Display results here -->
+            {% if alt is defined and az is defined %}
+                <h2>Results:</h2>
+                <p>Azimuth: {{ az }}</p>
+                <p>Altitude: {{ alt }}</p>
+            {% endif %}
 
-        {% if message is defined %}
-            <p>{{ message }}</p>
-        {% endif %}
+            {% if message is defined %}
+                <p>{{ message }}</p>
+            {% endif %}
+        </div>
     </div>
+
+    <!-- Ephemeris Data Section -->
+    <div class="container">
+        <h2>Ephemeris Data</h2>
+        <form method="post", action="/api/riseAndSetTimes" id="coordinates">
+            <!-- Add input fields for latitude and longitude with labels -->
+            <label for="latitude">Latitude:</label>
+            <input type="text" id="latitude" name="latitude" required>
+            <label for="longitude">Longitude:</label>
+            <input type="text" id="longitude" name="longitude" required>
+ 
+            <button type="submit">Get Rise and Set Times</button>
+        </form>
+        <div class="ephemeris-section">
+            <!-- Display ephemeris data here -->
+         {% if sunrise or sunset or solar_noon or civil_twilight_begin or civil_twilight_end %}
+             <h3 class="ephemeris">Ephemeris Data (GMT)</h3>
+         {% endif %}
+
+         {% if no_coordinates %}
+             <p>Please enter valid coordinates to get ephemeris data.</p>
+         {% else %}    
+             {% if sunrise %}
+                 <p class="ephemeris">Sunrise: {{ sunrise }}</p>
+            {% endif %}
+
+            {% if sunset %}
+                <p class="ephemeris">Sunset: {{ sunset }}</p>
+            {% endif %}
+
+            {% if solar_noon %}
+                <p class="ephemeris">Solar Noon: {{ solar_noon }}</p>
+            {% endif %}
+
+            {% if day_length %}
+                <p class="ephemeris">Day Length: {{ day_length }}</p>
+            {% endif %}
+
+            {% if civil_twilight_begin %}
+                <p class="ephemeris">Civil Twilight Begin: {{ civil_twilight_begin }}</p>
+            {% endif %}
+
+            {% if civil_twilight_end %}
+                <p class="ephemeris">Civil Twilight End: {{ civil_twilight_end }}</p>
+            {% endif %}
+
+            {% if nautical_twilight_begin %}
+                <p class="ephemeris">Nautical Twilight Begin: {{ nautical_twilight_begin }}</p>
+            {% endif %}
+
+            {% if nautical_twilight_end %}
+                <p class="ephemeris">Nautical_twilight_end: {{ nautical_twilight_end }}</p>
+            {% endif %}
+
+            {% if astronomical_twilight_begin %}
+                <p class="ephemeris">Astronomical Twilight Begin: {{ astronomical_twilight_begin }}</p>
+            {% endif %}
+
+            {% if astronomical_twilight_end %}
+                <p class="ephemeris">Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
+            {% endif %}
+
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% endif %}
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript for location -->
     <script>
         function getLocation() {
             if (navigator.geolocation) {
@@ -133,67 +223,7 @@
         }
     </script>
 
-
-    <!--Get latitude and longitude from user, link to flask app-->
-    <h3 class="objname">Ephemeris Data</h3>
-    <form method="post", action="/api/riseAndSetTimes" id="coordinates">
-        <label for="latitude">Latitude:</label>
-        <input type="text" id="latitude" name="latitude" required>
-        <label for="longitude">Longitude:</label>
-        <input type="text" id="longitude" name="longitude" required>
-	<button type="submit">Get Rise and Set Times</button>
-    </form>
-    
-    {% if sunrise or sunset or solar_noon or civil_twilight_begin or civil_twilight_end %}
-    <h3 class="ephemeris">Ephemeris Data (GMT)</h3>
-    {% endif %}
-
-    {% if no_coordinates %}
-        <p>Please enter valid coordinates to get ephemeris data.</p>
-    {% else %}    
-        {% if sunrise %}
-            <p class="ephemeris">Sunrise: {{ sunrise }}</p>
-        {% endif %}
-
-        {% if sunset %}
-            <p class="ephemeris">Sunset: {{ sunset }}</p>
-        {% endif %}
-
-        {% if solar_noon %}
-            <p class="ephemeris">Solar Noon: {{ solar_noon }}</p>
-        {% endif %}
-
-        {% if day_length %}
-            <p class="ephemeris">Day Length: {{ day_length }}</p>
-        {% endif %}
-
-        {% if civil_twilight_begin %}
-            <p class="ephemeris">Civil Twilight Begin: {{ civil_twilight_begin }}</p>
-        {% endif %}
-
-        {% if civil_twilight_end %}
-            <p class="ephemeris">Civil Twilight End: {{ civil_twilight_end }}</p>
-        {% endif %}
-
-        {% if nautical_twilight_begin %}
-            <p class="ephemeris">Nautical Twilight Begin: {{ nautical_twilight_begin }}</p>
-        {% endif %}
-
-        {% if nautical_twilight_end %}
-            <p class="ephemeris">Nautical_twilight_end: {{ nautical_twilight_end }}</p>
-        {% endif %}
-
-        {% if astronomical_twilight_begin %}
-            <p class="ephemeris">Astronomical Twilight Begin: {{ astronomical_twilight_begin }}</p>
-        {% endif %}
-
-        {% if astronomical_twilight_end %}
-            <p class="ephemeris">Astronomical Twilight End: {{ astronomical_twilight_end }}</p>
-        {% endif %}
-
-        {% if error_message %}
-            <p class="error">{{ error_message }}</p>
-        {% endif %}
-    {% endif %}
+    <!-- Additional JavaScript for handling form submissions and displaying results -->
 </body>
 </html>
+
