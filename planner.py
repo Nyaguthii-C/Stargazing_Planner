@@ -163,13 +163,22 @@ def parse_ra(ra_str):
     degrees = (hours + minutes / 60 + seconds / 3600) * 15
     return degrees
 
+def parse_dec(dec_str):
+    parts = dec_str.split()
+    hours = float(parts[0].replace('°', ''))
+    minutes = float(parts[1].replace('\'', ''))
+    seconds = float(parts[2].replace('"', ''))
+
+    # Convert to degrees
+    degrees = (hours + minutes / 60 + seconds / 3600) * 15
+    return degrees
 
 @app.route("/api/get-alt-azimuth", methods=["GET", "POST"])
 def altaz():
     if request.method == "POST":
         date_str = request.form["date"]
         ra_str = request.form["ra"]
-        dec = float(request.form["dec"])
+        dec_str = request.form["dec"]
         user_alt = float(request.form["local-altitude"])
 
         # Capture the user's geographical location
@@ -204,6 +213,7 @@ def altaz():
         jd = datetime.datetime.strptime(date_str, "%Y-%m-%d")
         jd = pyasl.jdcnv(jd)
         ra_degrees = parse_ra(ra_str)
+        dec = parse_dec(dec_str)
 
         # Use LST in the calculation
         alt, az, _ = pyasl.eq2hor(jd, ra_degrees, dec, lat=user_latitude, lon=user_longitude, alt=user_alt)
