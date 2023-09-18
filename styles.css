@@ -26,10 +26,9 @@
         }
 
        video {
-       max-width: 100%;
+       max-width: 60%;
        height: auto;
        }
-
 
         .container {
         display: flex;
@@ -60,14 +59,16 @@
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.5); 
         }
-
+ 
         .feature {
             margin: 20px 0;
             text-align: center; /* Center align features */
         }
 
-        .feature img {
-            max-width: 50%;
+        h3 {
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);   
         }
 
         footer {
@@ -97,6 +98,7 @@
 
         li {
             float: left;
+            font-weight: bold;
         }
 
         li a {
