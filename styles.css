@@ -17,6 +17,20 @@
         box-sizing border-box
         }
 
+
+        .video-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        }
+
+       video {
+       max-width: 100%;
+       height: auto;
+       }
+
+
         .container {
         display: flex;
         align-items: center;
