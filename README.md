@@ -12,13 +12,42 @@ Entering incorrect or invalid coordinates values will return incorrect ephemeris
 
 
 ## Installation
+To install the web application,  
+1. ### Clone the  repository  
+    - **git clone https://github.com/Nyaguthii-C/Stargazing_Planner.git**
+2. ### Setting Up a Virtual Environment  
+  It's recommended to use a virtual environment to manage dependencies for this project. Here's how to set it up:
+1. **Open a terminal or command prompt.**  
+
+2. **Navigate to your project directory:**  
+   ```bash
+   cd /path/to/your/project
+
+3. **Set Up Virtual Environment** 
+   ```bash
+   python -m venv venv
+
+4. **Activate the virtual environment:**  
+- **On windows**  
+    ```bash
+    venv\Scripts\activate  
+
+ - **macOS and Linux:**
+    ```bash
+    source venv/bin/activate
+
+5. **Installing Dependencies**  
+Once the virtual environment is activated, you can install the required dependencies from the requirements.txt file:
+    ```bash
+    pip install -r requirements.txt
+
+
+
+
 
 
 
 ## Usage
-
-
-
 
 ## Contributing
 
