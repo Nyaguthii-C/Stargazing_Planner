@@ -84,6 +84,7 @@ To stop the application,
     ```bash
     Ctrl +  C
 
+Happy stargazing!
 
 ## Contributing  
 -  **Creating an Issue**  
@@ -101,7 +102,11 @@ To contribute to Stargazing Planner:
     - Create a PR from your forked repository to the main repository.
 
 
-## Licensing
+## License
+
+This project is licensed under the **MIT** License - see the [LICENSE](https://github.com/Nyaguthii-C/Stargazing_Planner/blob/main/LICENSE) file for details.
+
+
 
 
 
