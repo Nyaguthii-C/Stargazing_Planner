@@ -114,15 +114,24 @@
                     const resultList = document.getElementById("result-list");
                     resultList.innerHTML = ''; // Clear any previous results
 
-                    const order = ["Type", "Name", "Sub Type", "Constellation", "Right Ascension", "Declinition"];
+                    if (result.hasOwnProperty("error")) {
+                        // Display the error message in HTML
+                        const errorItem = document.createElement("li");
+                        errorItem.innerHTML = `<strong>Error:</strong> ${result.error}`;
+                        resultList.appendChild(errorItem);
+                    } else {
+                        // Handle the case when there's no error
+                        const order = ["Type", "Name", "Sub Type", "Constellation", "Right Ascension", "Declinition"];
 
-                    order.forEach(key => {
-                        if (result.hasOwnProperty(key)) {
-                            const listItem = document.createElement("li");
-                            listItem.innerHTML = `<strong>${key}:</strong> ${result[key]}`;
-                            resultList.appendChild(listItem);
-                        }
-                    });
+                        order.forEach(key => {
+                            if (result.hasOwnProperty(key)) {
+                                const listItem = document.createElement("li");
+                                listItem.innerHTML = `<strong>${key}:</strong> ${result[key]}`;
+                                resultList.appendChild(listItem);
+		            }
+                        });
+
+                    }
             });
 	});
     </script>

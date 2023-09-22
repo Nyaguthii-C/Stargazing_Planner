@@ -56,9 +56,10 @@ def search():
         constellation = stellarObject_info["position"]["constellation"]["name"]
         right_ascension = stellarObject_info["position"]["equatorial"]["rightAscension"]["string"]
         declinition = stellarObject_info["position"]["equatorial"]["declination"]["string"]
-    except TypeError:
+        return {"Name": object_name, "Type": object_type, "Sub Type": object_subType, "Constellation": constellation, "Right Ascension": right_ascension, "Declinition": declinition}
+    except IndexError:
         error_message = "Invalid input data. Please enter valid name"
-    return {"Name": object_name, "Type": object_type, "Sub Type": object_subType, "Constellation": constellation, "Right Ascension": right_ascension, "Declinition": declinition}
+        return {"error": error_message} 
 
 
 def get_astronomical_data(latitude, longitude):
